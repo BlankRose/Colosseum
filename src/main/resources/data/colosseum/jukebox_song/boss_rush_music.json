@@ -1,0 +1,8 @@
+{
+    "comparator_output": 15,
+    "description": {
+        "translate": "item.colosseum.music_disc_boss_rush.desc"
+    },
+    "length_in_seconds": 158.0,
+    "sound_event": "colosseum:boss_rush_music"
+}

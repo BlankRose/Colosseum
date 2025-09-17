@@ -1,7 +1,5 @@
 {
-  "itemGroup.colosseum": "Example Mod Tab",
-  "block.colosseum.example_block": "Example Block",
-  "item.colosseum.example_item": "Example Item",
+  "itemGroup.colosseum": "Colosseum",
 
   "colosseum.configuration.title": "Colosseum Configs",
   "colosseum.configuration.section.colosseum.common.toml": "Colosseum Configs",
@@ -9,5 +7,8 @@
   "colosseum.configuration.items": "Item List",
   "colosseum.configuration.logDirtBlock": "Log Dirt Block",
   "colosseum.configuration.magicNumberIntroduction": "Magic Number Text",
-  "colosseum.configuration.magicNumber": "Magic Number"
+  "colosseum.configuration.magicNumber": "Magic Number",
+
+  "item.colosseum.music_disc_boss_rush": "Boss Rush Theme",
+  "item.colosseum.music_disc_boss_rush.desc": "ProjectMoon - Angela's Perseverance"
 }

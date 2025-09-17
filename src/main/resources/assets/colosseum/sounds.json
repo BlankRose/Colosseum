@@ -1,0 +1,10 @@
+{
+    "boss_rush_music": {
+        "sounds": [
+            {
+                "name": "colosseum:boss_rush_music",
+                "stream": true
+            }
+        ]
+    }
+}
