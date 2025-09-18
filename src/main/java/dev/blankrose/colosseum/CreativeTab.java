@@ -1,5 +1,6 @@
 package dev.blankrose.colosseum;
 
+import dev.blankrose.colosseum.blocks.BlockRegistry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -17,6 +18,7 @@ public class CreativeTab {
         .icon(Items.NETHERITE_SWORD::getDefaultInstance)
         .displayItems((parameters, output) -> {
             output.accept(ItemRegistry.MUSIC_DISC_BOSS_RUSH.get());
+            output.accept(BlockRegistry.ALTAR.get());
         }).build());
 
     public static void register(IEventBus bus) {

@@ -1,0 +1,18 @@
+{
+    "variants": {
+        "facing=north": {
+            "model": "colosseum:block/altar"
+        },
+        "facing=south": {
+            "model": "colosseum:block/altar"
+        },
+        "facing=east": {
+            "model": "colosseum:block/altar",
+            "y": 90
+        },
+        "facing=west": {
+            "model": "colosseum:block/altar",
+            "y": 90
+        }
+    }
+}

@@ -1,8 +1,11 @@
 package dev.blankrose.colosseum;
 
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -16,5 +19,9 @@ public class ItemRegistry {
 
     public static void register(IEventBus bus) {
         REGISTRY.register(bus);
+    }
+
+    public static <T extends Block> void registerBlockAsItem(DeferredBlock<T> block) {
+        REGISTRY.registerSimpleBlockItem(block);
     }
 }

@@ -9,6 +9,13 @@
   "colosseum.configuration.magicNumberIntroduction": "Magic Number Text",
   "colosseum.configuration.magicNumber": "Magic Number",
 
+  "block.colosseum.altar": "Altar",
+
   "item.colosseum.music_disc_boss_rush": "Boss Rush Theme",
-  "item.colosseum.music_disc_boss_rush.desc": "ProjectMoon - Angela's Perseverance"
+  "item.colosseum.music_disc_boss_rush.desc": "ProjectMoon - Angela's Perseverance",
+
+  "effect.colosseum.anti_grief": "Anti Grief",
+
+  "colosseum.string.altar.unknown_item": "§cThis item doesn't seems to work..",
+  "colosseum.string.altar.start": "§6Good luck, mortal"
 }
