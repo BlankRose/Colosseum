@@ -12,7 +12,7 @@ public class BlockEntityRegistry {
     private static final DeferredRegister<BlockEntityType<?>> REGISTRY =
         DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Colosseum.MOD_ID);
 
-    public static final Supplier<BlockEntityType<AltarEntity>> ALTAR_BLOCK_ENTITY = REGISTRY.register(
+    public static final Supplier<BlockEntityType<AltarEntity>> ALTAR = REGISTRY.register(
         "altar",
         () -> BlockEntityType.Builder.of(
             AltarEntity::new,

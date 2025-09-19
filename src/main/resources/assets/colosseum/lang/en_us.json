@@ -17,5 +17,6 @@
   "effect.colosseum.anti_grief": "Anti Grief",
 
   "colosseum.string.altar.unknown_item": "§cThis item doesn't seems to work..",
+  "colosseum.string.altar.in_use": "§cThis altar is already active!",
   "colosseum.string.altar.start": "§6Good luck, mortal"
 }

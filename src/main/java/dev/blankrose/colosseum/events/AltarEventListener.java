@@ -1,0 +1,46 @@
+package dev.blankrose.colosseum.events;
+
+import dev.blankrose.colosseum.attachments.AttachmentRegistry;
+import dev.blankrose.colosseum.attachments.ExtendedBlockPos;
+import dev.blankrose.colosseum.blocks.AltarEntity;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.neoforge.event.entity.living.MobDespawnEvent;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
+
+import java.util.Objects;
+
+public class AltarEventListener {
+    @SubscribeEvent
+    public void onDeath(LivingDeathEvent event) {
+        //common(event.getEntity());
+    }
+
+    @SubscribeEvent
+    public void onDespawn(MobDespawnEvent event) {
+        if (event.getEntity().hasData(AttachmentRegistry.POSITION)) {
+            event.setResult(MobDespawnEvent.Result.DENY);
+        }
+    }
+
+    private void common(Entity entity) {
+        if (Objects.isNull(entity.getServer())
+            || !entity.hasData(AttachmentRegistry.POSITION)) {
+            return;
+        }
+
+        ExtendedBlockPos pos = entity.getData(AttachmentRegistry.POSITION);
+        ServerLevel level = pos.getLevel(entity.getServer());
+        if (Objects.isNull(level)
+            || !(level.getBlockEntity(pos.getPos()) instanceof AltarEntity block_entity)) {
+            return;
+        }
+
+        block_entity.boss = null;
+        block_entity.next_wave();
+    }
+}
