@@ -1,7 +1,6 @@
 package dev.blankrose.colosseum.events;
 
 import dev.blankrose.colosseum.effects.EffectRegistry;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
