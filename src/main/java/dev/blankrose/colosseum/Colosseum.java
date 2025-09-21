@@ -5,9 +5,9 @@ import dev.blankrose.colosseum.blocks.BlockRegistry;
 import dev.blankrose.colosseum.effects.EffectRegistry;
 import dev.blankrose.colosseum.events.AltarEventListener;
 import dev.blankrose.colosseum.events.AntiGriefEventListener;
-import dev.blankrose.colosseum.events.PostRegistryNotifier;
 
 import dev.blankrose.colosseum.attachments.AttachmentRegistry;
+import dev.blankrose.colosseum.loot.LootModifierRegistry;
 import org.slf4j.Logger;
 import com.mojang.logging.LogUtils;
 
@@ -23,6 +23,8 @@ public class Colosseum {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public Colosseum(IEventBus modEventBus, ModContainer modContainer) {
+        // Registries
+        LootModifierRegistry.register(modEventBus);
         AttachmentRegistry.register(modEventBus);
         EffectRegistry.register(modEventBus);
         BlockRegistry.register(modEventBus);
@@ -31,10 +33,11 @@ public class Colosseum {
         SoundRegistry.register(modEventBus);
         CreativeTab.register(modEventBus);
 
+        // Events
         NeoForge.EVENT_BUS.register(new AltarEventListener());
         NeoForge.EVENT_BUS.register(new AntiGriefEventListener());
-        modEventBus.register(new PostRegistryNotifier());
 
+        // Configs
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 }

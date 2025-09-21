@@ -1,0 +1,12 @@
+{
+    "type": "colosseum:void_modifier",
+    "conditions": [
+        {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+                "nbt": "{Tags: [\"Summoned\"]}"
+            }
+        }
+    ]
+}

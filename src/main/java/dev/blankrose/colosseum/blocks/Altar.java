@@ -80,7 +80,7 @@ public class Altar extends HorizontalDirectionalBlock implements EntityBlock {
         }
 
         server_player.connection.send(new ClientboundSetActionBarTextPacket(Component.translatable("colosseum.string.altar.start")));
-        block_entity.next_wave();
+        block_entity.spawnNextWave();
         return ItemInteractionResult.SUCCESS;
     }
 }

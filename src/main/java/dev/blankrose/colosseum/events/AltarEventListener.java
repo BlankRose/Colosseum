@@ -6,18 +6,24 @@ import dev.blankrose.colosseum.blocks.AltarEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.MobDespawnEvent;
-import net.neoforged.neoforge.event.tick.EntityTickEvent;
-import net.neoforged.neoforge.event.tick.LevelTickEvent;
-import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 
 import java.util.Objects;
 
 public class AltarEventListener {
     @SubscribeEvent
-    public void onDeath(LivingDeathEvent event) {
-        //common(event.getEntity());
+    public void onServerStop(ServerStoppingEvent event) {
+        event.getServer().getAllLevels().forEach((level) -> {
+            level.getAllEntities().forEach(entity -> {
+                if (Objects.nonNull(entity)
+                    && entity.hasData(AttachmentRegistry.POSITION)) {
+
+                    common(entity);
+                    entity.kill();
+                }
+            });
+        });
     }
 
     @SubscribeEvent
@@ -28,7 +34,8 @@ public class AltarEventListener {
     }
 
     private void common(Entity entity) {
-        if (Objects.isNull(entity.getServer())
+        if (Objects.isNull(entity)
+            || Objects.isNull(entity.getServer())
             || !entity.hasData(AttachmentRegistry.POSITION)) {
             return;
         }
@@ -41,6 +48,6 @@ public class AltarEventListener {
         }
 
         block_entity.boss = null;
-        block_entity.next_wave();
+        block_entity.spawnNextWave();
     }
 }
