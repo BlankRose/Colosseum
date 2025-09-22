@@ -8,6 +8,7 @@ import dev.blankrose.colosseum.events.AntiGriefEventListener;
 
 import dev.blankrose.colosseum.attachments.AttachmentRegistry;
 import dev.blankrose.colosseum.loot.LootModifierRegistry;
+import dev.blankrose.colosseum.sounds.SoundRegistry;
 import org.slf4j.Logger;
 import com.mojang.logging.LogUtils;
 

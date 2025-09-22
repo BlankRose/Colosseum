@@ -1,6 +1,6 @@
 package dev.blankrose.colosseum;
 
-import net.minecraft.world.item.BlockItem;
+import dev.blankrose.colosseum.sounds.SoundRegistry;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
@@ -14,6 +14,14 @@ public class ItemRegistry {
 
     public static final DeferredItem<Item> MUSIC_DISC_BOSS_RUSH = REGISTRY.registerSimpleItem("music_disc_boss_rush", new Item.Properties()
         .jukeboxPlayable(SoundRegistry.BOSS_RUSH_MUSIC_KEY)
+        .rarity(Rarity.EPIC)
+        .stacksTo(1));
+    public static final DeferredItem<Item> MUSIC_DISC_LAP4 = REGISTRY.registerSimpleItem("music_disc_lap4", new Item.Properties()
+        .jukeboxPlayable(SoundRegistry.LAP4_MUSIC_KEY)
+        .rarity(Rarity.EPIC)
+        .stacksTo(1));
+    public static final DeferredItem<Item> MUSIC_DISC_LAP7 = REGISTRY.registerSimpleItem("music_disc_lap7", new Item.Properties()
+        .jukeboxPlayable(SoundRegistry.LAP7_MUSIC_KEY)
         .rarity(Rarity.EPIC)
         .stacksTo(1));
 

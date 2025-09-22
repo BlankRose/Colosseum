@@ -6,5 +6,21 @@
                 "stream": true
             }
         ]
+    },
+    "lap4_music": {
+        "sounds": [
+            {
+                "name": "colosseum:lap4_music",
+                "stream": true
+            }
+        ]
+    },
+    "lap7_music": {
+        "sounds": [
+            {
+                "name": "colosseum:lap7_music",
+                "stream": true
+            }
+        ]
     }
 }

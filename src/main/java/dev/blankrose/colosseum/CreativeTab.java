@@ -18,6 +18,8 @@ public class CreativeTab {
         .icon(Items.NETHERITE_SWORD::getDefaultInstance)
         .displayItems((parameters, output) -> {
             output.accept(ItemRegistry.MUSIC_DISC_BOSS_RUSH.get());
+            output.accept(ItemRegistry.MUSIC_DISC_LAP4.get());
+            output.accept(ItemRegistry.MUSIC_DISC_LAP7.get());
             output.accept(BlockRegistry.ALTAR.get());
         }).build());
 

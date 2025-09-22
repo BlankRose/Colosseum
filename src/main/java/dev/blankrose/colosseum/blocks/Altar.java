@@ -1,6 +1,7 @@
 package dev.blankrose.colosseum.blocks;
 
 import com.mojang.serialization.MapCodec;
+import dev.blankrose.colosseum.sounds.MusicPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
@@ -21,8 +22,12 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 /// Handles the behavior of the Altar block,
 /// used for boss summoning.
@@ -45,12 +50,14 @@ public class Altar extends HorizontalDirectionalBlock implements EntityBlock {
 
     @Override
     public @Nullable BlockState getStateForPlacement(BlockPlaceContext context) {
-        return super.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
+        return super.defaultBlockState()
+            .setValue(FACING, context.getHorizontalDirection())
+            .setValue(BlockStateProperties.ENABLED, false);
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
+        builder.add(FACING, BlockStateProperties.ENABLED);
     }
 
     @Override
@@ -82,5 +89,27 @@ public class Altar extends HorizontalDirectionalBlock implements EntityBlock {
         server_player.connection.send(new ClientboundSetActionBarTextPacket(Component.translatable("colosseum.string.altar.start")));
         block_entity.spawnNextWave();
         return ItemInteractionResult.SUCCESS;
+    }
+
+    @Override
+    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
+        if (state.getValue(BlockStateProperties.ENABLED)) {
+            if (level.isClientSide()) {
+                if (AltarEntity.IsNear(level, pos)) {
+                    MusicPlayer.stop();
+                }
+            } else /* isServerSide */ {
+                BlockEntity block_entity = level.getBlockEntity(pos);
+                if (block_entity instanceof AltarEntity altar_entity) {
+                    altar_entity.end();
+                }
+                if (player instanceof ServerPlayer server_player) {
+                    server_player.connection.send(new ClientboundSetActionBarTextPacket(Component.translatable("colosseum.string.altar.break")));
+                }
+            }
+            return true;
+        } else {
+            return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
+        }
     }
 }

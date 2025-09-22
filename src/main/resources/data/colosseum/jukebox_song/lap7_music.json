@@ -1,0 +1,8 @@
+{
+    "comparator_output": 15,
+    "description": {
+        "translate": "item.colosseum.music_disc_lap7.desc"
+    },
+    "length_in_seconds": 269.0,
+    "sound_event": "colosseum:lap7_music"
+}

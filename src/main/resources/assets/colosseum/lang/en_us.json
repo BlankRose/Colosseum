@@ -13,10 +13,15 @@
 
   "item.colosseum.music_disc_boss_rush": "Boss Rush Theme",
   "item.colosseum.music_disc_boss_rush.desc": "ProjectMoon - Angela's Perseverance",
+  "item.colosseum.music_disc_lap4": "Lap 4-6 Theme",
+  "item.colosseum.music_disc_lap4.desc": "HoakCast - Death Report V2",
+  "item.colosseum.music_disc_lap7": "Lap 7-10 Theme",
+  "item.colosseum.music_disc_lap7.desc": "Punishing: Gray Ravel - Holy Moonlight",
 
   "effect.colosseum.anti_grief": "Anti Grief",
 
   "colosseum.string.altar.unknown_item": "§cThis item doesn't seems to work..",
   "colosseum.string.altar.in_use": "§cThis altar is already active!",
-  "colosseum.string.altar.start": "§6Good luck, mortal"
+  "colosseum.string.altar.start": "§6Good luck, mortal",
+  "colosseum.string.altar.break": "§cCancelled the active event! (Break again for removing the block)"
 }

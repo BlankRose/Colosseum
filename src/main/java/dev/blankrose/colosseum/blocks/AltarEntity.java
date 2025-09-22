@@ -3,6 +3,8 @@ package dev.blankrose.colosseum.blocks;
 import dev.blankrose.colosseum.Colosseum;
 import dev.blankrose.colosseum.attachments.AttachmentRegistry;
 import dev.blankrose.colosseum.attachments.ExtendedBlockPos;
+import dev.blankrose.colosseum.sounds.MusicPlayer;
+import dev.blankrose.colosseum.sounds.SoundRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
@@ -10,20 +12,18 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
-import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.BossEvent;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
-import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.common.Tags;
 
@@ -90,6 +90,8 @@ public class AltarEntity extends BlockEntity {
         this.boss.setData(AttachmentRegistry.POSITION, new ExtendedBlockPos(getBlockPos(), server_level));
         this.boss.addTag("Summoned");
 
+        server_level.setBlockAndUpdate(getBlockPos(), getBlockState().setValue(BlockStateProperties.ENABLED, true));
+
         players.forEach(player -> {
             if (player instanceof ServerPlayer server_player) {
                 server_player.connection.send(new ClientboundSetTitleTextPacket(Component.literal("§c").append(this.boss.getName())));
@@ -107,14 +109,23 @@ public class AltarEntity extends BlockEntity {
     }
 
     public List<Player> getPlayers() {
-        if (getLevel() instanceof ServerLevel server_level) {
-            return server_level.getNearbyPlayers(
-                TargetingConditions.forNonCombat(),
-                null,
-                AABB.ofSize(getBlockPos().getCenter(), 50.0, 50.0, 50.0)
-            );
+        Level world = getLevel();
+        if (Objects.isNull(world)) {
+            return List.of();
         }
-        return List.of();
+        return world.getNearbyPlayers(
+            TargetingConditions.forNonCombat(),
+            null,
+            AABB.ofSize(getBlockPos().getCenter(), 50.0, 50.0, 50.0)
+        );
+    }
+
+    public static boolean IsNear(Level level, BlockPos pos) {
+        return level.getNearbyPlayers(
+            TargetingConditions.forNonCombat(),
+            null,
+            AABB.ofSize(pos.getCenter(), 50.0, 50.0, 50.0)
+        ).stream().anyMatch(Player::isLocalPlayer);
     }
 
     @Override
@@ -124,6 +135,11 @@ public class AltarEntity extends BlockEntity {
     }
 
     public void end() {
+        if (getLevel() instanceof ServerLevel server_level
+            && getBlockState().getValue(BlockStateProperties.ENABLED)) { // <-- prevents inf loop
+            server_level.setBlockAndUpdate(getBlockPos(), getBlockState().setValue(BlockStateProperties.ENABLED, false));
+        }
+
         if (Objects.nonNull(this.boss)) {
             this.boss.kill();
             this.boss = null;
@@ -132,23 +148,33 @@ public class AltarEntity extends BlockEntity {
     }
 
     private static int tick = 0;
-    public static <T extends BlockEntity> void tick(Level level, BlockPos blockPos, BlockState blockState, T t) {
+    public static <T extends BlockEntity> void tick(Level level, BlockPos blockPos, BlockState block_state, T t) {
         if (tick < 10) {
             tick += 1;
             return;
         }
         tick = 0;
 
-        BlockEntity block_entity = level.getBlockEntity(blockPos);
-        if (!(block_entity instanceof AltarEntity altar_entity)
-            || altar_entity.check_despawn()) {
-            return;
+        if (level.isClientSide) {
+            if (!IsNear(level, blockPos) || !block_state.getValue(BlockStateProperties.ENABLED)) {
+                MusicPlayer.stop();
+            } else {
+                MusicPlayer.select(SoundRegistry.BOSS_RUSH_MUSIC);
+                MusicPlayer.play();
+            }
         }
+        else /* isServerSide */ {
+            BlockEntity block_entity = level.getBlockEntity(blockPos);
+            if (!(block_entity instanceof AltarEntity altar_entity)
+                || altar_entity.check_despawn()) {
+                return;
+            }
 
-        if (Objects.nonNull(altar_entity.boss)
-            && !altar_entity.boss.isAlive()) {
-            altar_entity.boss = null;
-            altar_entity.spawnNextWave();
+            if (Objects.nonNull(altar_entity.boss)
+                && !altar_entity.boss.isAlive()) {
+                altar_entity.boss = null;
+                altar_entity.spawnNextWave();
+            }
         }
     }
 
