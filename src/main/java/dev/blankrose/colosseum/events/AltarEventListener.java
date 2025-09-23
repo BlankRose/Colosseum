@@ -20,7 +20,6 @@ public class AltarEventListener {
                     && entity.hasData(AttachmentRegistry.POSITION)) {
 
                     common(entity);
-                    entity.kill();
                 }
             });
         });
@@ -47,7 +46,6 @@ public class AltarEventListener {
             return;
         }
 
-        block_entity.boss = null;
-        block_entity.spawnNextWave();
+        block_entity.handler.finish();
     }
 }

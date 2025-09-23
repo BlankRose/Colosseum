@@ -10,6 +10,10 @@
   "colosseum.configuration.magicNumber": "Magic Number",
 
   "block.colosseum.altar": "Altar",
+  "block.colosseum.altar.unknown_item": "§cThis item doesn't seems to work..",
+  "block.colosseum.altar.in_use": "§cThis altar is already active!",
+  "block.colosseum.altar.start": "§6Good luck, mortal",
+  "block.colosseum.altar.break": "§cCancelled the active event! (Break again for removing the block)",
 
   "item.colosseum.music_disc_boss_rush": "Boss Rush Theme",
   "item.colosseum.music_disc_boss_rush.desc": "ProjectMoon - Angela's Perseverance",
@@ -19,10 +23,5 @@
   "item.colosseum.music_disc_lap7.desc": "Punishing: Gray Ravel - Holy Moonlight",
   "item.colosseum.eternity_shard": "Eternity Shard",
 
-  "effect.colosseum.anti_grief": "Anti Grief",
-
-  "colosseum.string.altar.unknown_item": "§cThis item doesn't seems to work..",
-  "colosseum.string.altar.in_use": "§cThis altar is already active!",
-  "colosseum.string.altar.start": "§6Good luck, mortal",
-  "colosseum.string.altar.break": "§cCancelled the active event! (Break again for removing the block)"
+  "effect.colosseum.anti_grief": "Anti Grief"
 }

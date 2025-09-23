@@ -27,8 +27,6 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
-
 /// Handles the behavior of the Altar block,
 /// used for boss summoning.
 public class Altar extends HorizontalDirectionalBlock implements EntityBlock {
@@ -73,12 +71,12 @@ public class Altar extends HorizontalDirectionalBlock implements EntityBlock {
             || !(level.getBlockEntity(pos) instanceof AltarEntity block_entity)) {
             return ItemInteractionResult.CONSUME_PARTIAL;
         }
-        if (block_entity.wave > 0) {
-            server_player.connection.send(new ClientboundSetActionBarTextPacket(Component.translatable("colosseum.string.altar.in_use")));
+        if (block_entity.handler.isActive()) {
+            server_player.connection.send(new ClientboundSetActionBarTextPacket(Component.translatable("block.colosseum.altar.in_use")));
             return ItemInteractionResult.CONSUME_PARTIAL;
         }
         if (stack.getItem() != Items.NETHER_STAR) {
-            server_player.connection.send(new ClientboundSetActionBarTextPacket(Component.translatable("colosseum.string.altar.unknown_item")));
+            server_player.connection.send(new ClientboundSetActionBarTextPacket(Component.translatable("block.colosseum.altar.unknown_item")));
             return ItemInteractionResult.CONSUME_PARTIAL;
         }
 
@@ -86,8 +84,8 @@ public class Altar extends HorizontalDirectionalBlock implements EntityBlock {
             stack.setCount(stack.getCount() - 1);
         }
 
-        server_player.connection.send(new ClientboundSetActionBarTextPacket(Component.translatable("colosseum.string.altar.start")));
-        block_entity.spawnNextWave();
+        server_player.connection.send(new ClientboundSetActionBarTextPacket(Component.translatable("block.colosseum.altar.start")));
+        block_entity.handler.spawnNextWave();
         return ItemInteractionResult.SUCCESS;
     }
 
@@ -101,10 +99,10 @@ public class Altar extends HorizontalDirectionalBlock implements EntityBlock {
             } else /* isServerSide */ {
                 BlockEntity block_entity = level.getBlockEntity(pos);
                 if (block_entity instanceof AltarEntity altar_entity) {
-                    altar_entity.end();
+                    altar_entity.handler.finish();
                 }
                 if (player instanceof ServerPlayer server_player) {
-                    server_player.connection.send(new ClientboundSetActionBarTextPacket(Component.translatable("colosseum.string.altar.break")));
+                    server_player.connection.send(new ClientboundSetActionBarTextPacket(Component.translatable("block.colosseum.altar.break")));
                 }
             }
             return true;
