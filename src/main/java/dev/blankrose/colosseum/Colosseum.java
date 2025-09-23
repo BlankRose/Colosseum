@@ -7,6 +7,7 @@ import dev.blankrose.colosseum.events.AltarEventListener;
 import dev.blankrose.colosseum.events.AntiGriefEventListener;
 
 import dev.blankrose.colosseum.attachments.AttachmentRegistry;
+import dev.blankrose.colosseum.events.AnvilRecipes;
 import dev.blankrose.colosseum.loot.LootModifierRegistry;
 import dev.blankrose.colosseum.sounds.SoundRegistry;
 import org.slf4j.Logger;
@@ -37,6 +38,7 @@ public class Colosseum {
         // Events
         NeoForge.EVENT_BUS.register(new AltarEventListener());
         NeoForge.EVENT_BUS.register(new AntiGriefEventListener());
+        NeoForge.EVENT_BUS.register(new AnvilRecipes());
 
         // Configs
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);

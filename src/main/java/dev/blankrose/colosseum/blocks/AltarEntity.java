@@ -1,6 +1,7 @@
 package dev.blankrose.colosseum.blocks;
 
 import dev.blankrose.colosseum.Colosseum;
+import dev.blankrose.colosseum.ItemRegistry;
 import dev.blankrose.colosseum.attachments.AttachmentRegistry;
 import dev.blankrose.colosseum.attachments.ExtendedBlockPos;
 import dev.blankrose.colosseum.sounds.MusicPlayer;
@@ -19,12 +20,17 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.VaultBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.Tags;
 
 import javax.annotation.Nullable;
@@ -64,7 +70,7 @@ public class AltarEntity extends BlockEntity {
 
         final EntityType<?> next_boss = this.getBoss(this.wave);
         if (Objects.isNull(next_boss)) {
-            end();
+            win();
             return;
         }
         this.wave += 1;
@@ -145,6 +151,17 @@ public class AltarEntity extends BlockEntity {
             this.boss = null;
         }
         this.wave = 0;
+    }
+
+    public void win() {
+        if (getLevel() instanceof ServerLevel server_level) {
+            final Vec3 pos = getBlockPos().getCenter();
+            final ItemStack reward = ItemRegistry.ETERNITY_SHARD.toStack(1);
+            final Entity entity = new ItemEntity(server_level, pos.x, pos.y + 1.f, pos.z, reward, 0.f, .25f, 0.f);
+            entity.setInvulnerable(true);
+            server_level.addFreshEntity(entity);
+            end();
+        }
     }
 
     private static int tick = 0;

@@ -25,6 +25,10 @@ public class ItemRegistry {
         .rarity(Rarity.EPIC)
         .stacksTo(1));
 
+    public static final DeferredItem<Item> ETERNITY_SHARD = REGISTRY.registerSimpleItem("eternity_shard", new Item.Properties()
+        .rarity(Rarity.EPIC)
+        .fireResistant());
+
     public static void register(IEventBus bus) {
         REGISTRY.register(bus);
     }
